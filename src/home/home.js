@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import auth from "../auth";
 import AOS from 'aos';
 import unregister from '../intercept';
+import matchService from '../service/matchService';
 
 function TabContainer(props) {
   return (
@@ -64,17 +65,19 @@ class SimpleTabs extends React.Component {
   componentDidMount(){
       // console.log("data of live score");
       // propservice.getprop(this.props);
-      fetch("https://cricapi.com/api/cricket?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
-      .then(res => res.json())
-      .then(json =>{
-          // console.log(json);
+      // fetch("https://cricapi.com/api/cricket?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
+      matchService.liveScore()
+      // .then(res => res.json())
+      .then(res =>{
+          console.log(res);
           this.setState({
               isLoaded: true,
-              match: json.data,
+              match: res.data,
           })
       })
-        fetch("https://cricapi.com/api/matches?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
-        .then(res => res.json())
+      // fetch("https://cricapi.com/api/matches?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
+      matchService.futureSeries()
+        // .then(res => res.json())
         .then(json =>{
           // console.log(json);
           this.setState({
@@ -83,8 +86,9 @@ class SimpleTabs extends React.Component {
           })
           // console.log(this.state.future_series);
       })
-        fetch("https://cricapi.com/api/matchCalendar?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
-        .then(res => res.json())
+      // fetch("https://cricapi.com/api/matchCalendar?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
+      matchService.matchByDay()  
+        // .then(res => res.json())
         .then(json =>{
             // console.log(json);
         this.setState({

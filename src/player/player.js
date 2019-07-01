@@ -12,6 +12,7 @@ import background from '../player_bg1.jpg';
 import Swal from 'sweetalert2';
 import AOS from 'aos';
 import unregister from '../intercept';
+import matchService from '../service/matchService';
 
 class player extends Component{
 	constructor(props){
@@ -45,8 +46,9 @@ class player extends Component{
 		// console.log("pid:",playerId);
 
 		if(playerId){
-			fetch("https://cricapi.com/api/playerStats?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&pid="+playerId)
-			.then(res => res.json())
+			// fetch("https://cricapi.com/api/playerStats?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&pid="+playerId)
+			matchService.getPlayerById(playerId)
+			// .then(res => res.json())
 			.then(json =>{
 					this.setState({
 						isLoaded:true,
@@ -97,8 +99,9 @@ class player extends Component{
     	} else if (this.state.player_name && pattern.test(this.state.player_name)) {
     		this.setState({player_statistics:''});
     		// console.log("state data",this.state.player_statistics);
-    		fetch("https://cricapi.com/api/playerFinder?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&name="+this.state.player_name)
-			.then(res => res.json())
+			// fetch("https://cricapi.com/api/playerFinder?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&name="+this.state.player_name)
+			matchService.getPlayerByName(this.state.player_name)
+			// .then(res => res.json())
 			.then(json =>{
 				if(!(json.data == '')){
 					this.setState({
@@ -123,9 +126,11 @@ class player extends Component{
 		setTimeout(()=>{
 			if(this.state.pid){
 				// console.log("player info",this.state.player_info.data);
-				fetch("https://cricapi.com/api/playerStats?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&pid="+this.state.pid)
-				.then(res => res.json())
+				// fetch("https://cricapi.com/api/playerStats?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&pid="+this.state.pid)
+				matchService.getPlayerById(this.state.pid)
+				// .then(res => res.json())
 				.then(json =>{
+					console.log(json);
 					this.setState({
 						isLoaded:true,
 						player_statistics:json,

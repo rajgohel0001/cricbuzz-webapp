@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import './score.css';
 import AOS from 'aos';
 import unregister from '../intercept';
+import matchService from '../service/matchService';
 
 class score extends Component{
 	constructor(props){
@@ -29,8 +30,9 @@ class score extends Component{
 		// uri.split("/");
 		// console.log("==========>",this.props.location.pathname[0])
 
-		fetch("https://cricapi.com/api/fantasySummary?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&unique_id="+matchId)
-		.then(res => res.json())
+		// fetch("https://cricapi.com/api/fantasySummary?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&unique_id="+matchId)
+		matchService.getScore(matchId)
+		// .then(res => res.json())
 		.then(matchData =>{
 			// console.log("match_data", matchData);
 			// this.setState({
