@@ -2,14 +2,11 @@ import React,{Component} from 'react';
 import * as mdc from 'material-components-web';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import home from './home';
+import home from '../home/home';
 import Button from '@material-ui/core/Button';
-import loader from './loader.gif';
-// import  propservice from "./propService.js";
 import './score.css';
 import AOS from 'aos';
-import Loader from './Loader';
-import unregister from './intercept';
+import unregister from '../intercept';
 
 class score extends Component{
 	constructor(props){

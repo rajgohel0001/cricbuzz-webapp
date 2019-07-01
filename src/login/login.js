@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
+import '../App.css';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
 import { browserHistory } from 'react-router';
 import { Container, Flex, Box, Input, Button, Subhead, Text } from 'rebass';
-import auth from "./auth";
-import Home from './home.js';
+import auth from "../auth";
+import Home from '../home/home.js';
 import * as firebase from "firebase/app";
 
 // Add the Firebase products that you want to use

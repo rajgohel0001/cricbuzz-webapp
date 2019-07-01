@@ -5,10 +5,10 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Router, Route, Switch } from 'react-router-dom';
 // import { HashRouter,Link,Route } from 'react-router-dom';
-import player from './player.js';
-import login from './login.js';
-import score from './score.js';
-import home from './home.js';
+import player from './player/player.js';
+import login from './login/login.js';
+import score from './score/score.js';
+import home from './home/home.js';
 import { ProtectedRoute } from "./protected.route";
 
 function App() {

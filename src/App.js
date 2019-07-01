@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import * as mdc from 'material-components-web';
 import "material-components-web/dist/material-components-web.min.css";
 import FacebookLogin from 'react-facebook-login';
-import login from './login'
+import login from './login/login'
 import  home from './home';
 import score from './score';
 import player from './player';

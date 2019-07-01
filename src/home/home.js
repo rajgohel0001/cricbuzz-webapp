@@ -9,11 +9,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import loader from './loader.gif';
-import auth from "./auth";
+import auth from "../auth";
 import AOS from 'aos';
-import unregister from './intercept';
-import Loader from './Loader';
+import unregister from '../intercept';
 
 function TabContainer(props) {
   return (

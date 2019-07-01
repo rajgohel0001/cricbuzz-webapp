@@ -1,6 +1,5 @@
 import fetchIntercept from 'fetch-intercept';
 import React, { Component }  from 'react';
-import Loader from './Loader';
  
 export const unregister = fetchIntercept.register({
     request: function (url, config) {

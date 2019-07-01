@@ -8,12 +8,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import loader from './loader.gif';
-import background from './player_bg1.jpg';
+import background from '../player_bg1.jpg';
 import Swal from 'sweetalert2';
 import AOS from 'aos';
-import Loader from './Loader';
-import unregister from './intercept';
+import unregister from '../intercept';
 
 class player extends Component{
 	constructor(props){
