@@ -1,0 +1,55 @@
+body *{
+  box-sizing: border-box;
+}
+.bg_class{
+  background-image: url(bg.jpg);
+  height: 100vh;
+  background-size: cover;
+}
+.login{
+  margin: auto;
+  text-align: center;
+  display: table;
+}
+button.sc-bdVaJa.sc-EHOje.kReQUh{
+  padding: 0px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+button.sc-bdVaJa.sc-EHOje.kReQUh > span >  button {
+    background-color: #46629E !important;
+    color: #fff;
+    padding: 22px 58px !important;
+    border-radius: 16px;
+    font-size: 20px;
+    outline: none;
+    margin-top: 30vh;
+    box-shadow: 0px 31px 29px #464d42;
+}
+.login h1{
+    color: rgb(255, 255, 255);
+    font-size: 110px;
+    text-shadow: 1px 11px 1px darkslategrey;
+}
+.kep-login-facebook {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+@media (max-width: 575px){
+  .login h1{
+    font-size: 70px;
+  }
+  button.sc-bdVaJa.sc-EHOje.kReQUh > span > button{
+    font-size: 15px;
+    padding: 22px 40px!important;
+  }
+}
+.loader{
+    margin: auto;
+    width: 600px;
+}
+.loader img{
+    width: 100%;
+}

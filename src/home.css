@@ -1,0 +1,163 @@
+ul{
+	display: inline-block;
+}
+a{
+	text-decoration: none;
+	color: #fff;
+}
+.main_container{
+	width: 100%;
+	border-radius: 3px;
+	margin: auto;
+}
+.border_class{
+	border: 1px solid #3f50b5;
+	/*height: 100vh;*/
+}
+.live_score_box{
+	border-radius: 2px;
+	border: 1px solid lightgray;
+	padding: 10px;
+	margin-bottom: 10px;
+	background-color: #f3f6f9;
+}
+.match1{
+	/*background-color: #f3f6f9;*/
+    color: #222;
+    /*text-transform: uppercase;*/
+    padding: 10px 5px;
+    font-size: 16px;
+    /*font-weight: bold;*/
+    font-family: 'Encode Sans Expanded', sans-serif;
+}
+.match2{
+	margin-top: 5px;
+}
+.gray{
+	color: #736565;
+}
+.upcoming{
+  background-color: #e4e4e4;
+  padding: 10px 5px; 
+}
+.main_heading{
+	display: table;
+	width: 100%;
+	padding: 20px !important;
+	/*background-color: #1fc8db;
+    background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);*/
+}
+.left_class{
+	float: left;
+}
+.left_class p {
+    font-size: 38px;
+    margin: 0;
+    font-family: cursive;
+    font-weight: bold;
+}
+.right_class{
+	float: right;
+	margin-top: 10px;
+}
+.MuiButton-containedPrimary-14{
+	margin-left: 10px!important;
+}
+.tableData{
+	overflow-x:auto !important;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+.link_btn{
+	float: right;
+	background-color: #fff !important;
+    border: 1px solid lightgray !important;
+    /*margin-top: -8px !important;*/
+}
+
+.player_btn{
+	margin-right: 10px !important;
+	background-color: #fff !important;
+    border: 1px solid lightgray !important;
+}
+.teamPara{
+	margin-top: 0px !important;
+}
+span.PrivateTabIndicator-root-77.PrivateTabIndicator-colorSecondary-79.MuiTabs-indicator {
+    background-color: #000 !important;
+}
+hr{ 
+  height: 1px;
+  color: #e1e2e3;
+  background-color: #e1e2e3;
+  border: none;
+}
+.load{
+	margin: auto;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	max-width: 100%;
+    max-height: 100%;
+}
+.players_btn{
+	margin-right: 5px !important;
+	padding: 8px 15px 8px 15px!important;
+}
+@media screen and (max-width: 320px){
+    .link_btn{
+    	float: right;
+    	background-color: #fff !important;
+    	border: 1px solid lightgray !important;
+    	/*margin-top: 8px !important;*/
+    }
+}
+/*@media screen and (min-width: 320px){
+    .right_class{
+    	float: left !important;
+    	margin-top: 10px !important;
+    }
+}*/
+
+.MuiTypography-body1 {
+   margin-bottom: 45px !important; 
+}
+
+@media (max-width: 599.95px){
+.MuiTabs-scrollButtonsDesktop {
+   display: flex !important;
+}
+}
+
+@media (max-width: 575px){
+	.main_heading {
+		padding: 0 !important;
+		display: table;
+		width: 100%;
+	}
+	.right_class, .left_class {
+		float: none;
+		display: table;
+		width: 100%;
+		text-align: center;
+		margin: 10px 0px !important;
+	}
+	.right_class {
+		float: right;
+		margin-top: 10px;
+	}
+}

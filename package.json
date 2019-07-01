@@ -1,0 +1,59 @@
+{
+  "name": "cricbuzz",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.0.1",
+    "@material-ui/icons": "^3.0.2",
+    "@material/react-tab": "^0.12.0",
+    "@material/tab-bar": "^2.1.0",
+    "aos": "^2.3.4",
+    "config.json": "0.0.4",
+    "dangerously-set-inner-html": "^2.0.1",
+    "fetch-intercept": "^2.3.1",
+    "firebase": "^6.0.2",
+    "gatsby": "^2.9.4",
+    "gh-pages": "^2.0.1",
+    "google-map-react": "^1.1.4",
+    "hash-router": "^0.4.0",
+    "material-components-web": "^2.1.0",
+    "material-tabs": "0.0.8",
+    "path": "^0.12.7",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-facebook-login": "^4.1.1",
+    "react-firebase": "^2.2.8",
+    "react-firebaseui": "^3.1.2",
+    "react-google-login": "^5.0.4",
+    "react-redirect": "^1.0.0",
+    "react-router-dom": "^5.0.0",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "3.0.0",
+    "rebass": "^3.1.0",
+    "styled-components": "^4.2.0",
+    "sweetalert2": "^8.11.7"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
