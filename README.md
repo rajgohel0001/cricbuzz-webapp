@@ -6,9 +6,9 @@
 
 ## About this Project
 
-### What is cricbuzz-web-app and how to use?
+### What is cricbuzz-web-app?
 
-    * cricbuzz-web-app is sports website exclusively for Cricket
+    * cricbuzz-web-app is sports website exclusively for Cricket.
 
     * In cricbuzz-web-app user can signin with facebook and user can see live matches score, future series match score and time table of matches user can also see details of player by searching name of player.
 
