@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 import auth from "../auth";
 import AOS from 'aos';
 import matchService from '../service/matchService';
+import Swal from 'sweetalert2';
 
 function TabContainer(props) {
   return (
@@ -43,7 +44,6 @@ class SimpleTabs extends React.Component {
 
   constructor(props){
       super(props);
-      // console.log("props:",this.props);
       this.state = {
           match: [],
           future_series: [],
@@ -66,11 +66,16 @@ class SimpleTabs extends React.Component {
        */
       matchService.liveScore()
       .then(res =>{
-          // console.log(res);
           this.setState({
               isLoaded: true,
               match: res.data,
           })
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Internal server error',
+          type: 'warning',
+        })
       })
 
       /**
@@ -78,12 +83,17 @@ class SimpleTabs extends React.Component {
        */
       matchService.futureSeries()
         .then(json =>{
-          // console.log(json);
           this.setState({
               isLoaded: true,
              future_series: json.matches,
           })
           // console.log(this.state.future_series);
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Internal server error',
+          type: 'warning',
+        })
       })
 
       /**
@@ -91,10 +101,15 @@ class SimpleTabs extends React.Component {
        */
       matchService.matchByDay()  
         .then(json =>{
-            // console.log(json);
         this.setState({
             isLoaded: true,
             match_by_day: json.data,
+        })
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Internal server error',
+          type: 'warning',
         })
       })
   }
@@ -102,10 +117,6 @@ class SimpleTabs extends React.Component {
   render() {
     const { classes } = this.props;
     const { match,future_series,match_by_day,value,isLoaded,fireRedirect } = this.state;
-    // console.log("privious locaion",window.location);
-    // console.log("live_match",match);
-    // console.log("future_series",future_series);
-    // console.log("match_by_day",match_by_day);
     AOS.init();
 
     if(fireRedirect) {
@@ -124,7 +135,6 @@ class SimpleTabs extends React.Component {
               </Button>
               <Button variant="contained" className="player_btn" onClick={() => {
                 console.log("logout1");
-                // console.log("props:",this.props);
                 localStorage.removeItem("email");
                 this.setState({ fireRedirect: true });
                 // auth.logout(() => {
@@ -195,7 +205,6 @@ class SimpleTabs extends React.Component {
                     {future_series.map(item =>{
                       const GMT = new Date(item.dateTimeGMT);
                       const IST = GMT.toLocaleString();
-                      // console.log("IST:",IST);
                       const date = IST.split(',')[0];
 
                       const dat = new Date(item.dateTimeGMT);
@@ -205,8 +214,6 @@ class SimpleTabs extends React.Component {
                         hour12: true
                       };
                       const timeString = dat.toLocaleString('en-US', options);
-                      // console.log('IST: ', IST);
-                      // console.log("formatDate:",this.formatDate(IST));
                         return(
                         <div data-aos="fade-up">
                           <Grid container spacing={12}>
@@ -234,8 +241,6 @@ class SimpleTabs extends React.Component {
                 </TabContainer>}
         	{value === 3 && <TabContainer>
                 {match_by_day.map(item=>{
-                  // const matchByDayDetail = item.name.split(" v ")[0];
-                  // console.log("team",matchByDayDetail);
                     return(
                     <div data-aos="fade-up">
                       <Grid container spacing={12}>

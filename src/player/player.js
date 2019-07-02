@@ -39,11 +39,7 @@ class player extends Component {
 		this.handleClick = this.handleClick.bind(this);
 	}
 	componentDidMount() {
-		// console.log(this.props.location.pathname);
-		// const playerName = this.props.location.pathname.split('/')[2];
 		const playerId = this.props.location.pathname.split('/')[2];
-		// console.log("pname:",playerName);
-		// console.log("pid:",playerId);
 
 		if (playerId) {
 			/**
@@ -65,21 +61,13 @@ class player extends Component {
 						listA_dataBow: [json.data.bowling.listA],
 						test_dataBow: [json.data.bowling.tests]
 					})
-					// console.log("player_statistics",this.state.player_statistics);
-
-					// console.log("ODI_data",this.state.ODI_data);
-					// console.log("T20_data",this.state.T20_data);
-					// console.log("firstClass_data",this.state.firstClass_data);
-					// console.log("listA_data",this.state.listA_data);
-					// console.log("test_data",this.state.test_data);
-
-					// console.log("ODI_data",this.state.ODI_dataBow);
-					// console.log("T20_data",this.state.T20_dataBow);
-					// console.log("firstClass_data",this.state.firstClass_dataBow);
-					// console.log("listA_data",this.state.listA_dataBow);
-					// console.log("test_data",this.state.test_dataBow);
-				}
-				)
+				})
+				.catch(err => {
+					Swal.fire({
+						title: 'Internal server error',
+						type: 'warning',
+					})
+				})
 		}
 	}
 
@@ -87,7 +75,6 @@ class player extends Component {
 		this.setState({
 			player_name: event.target.value
 		});
-		// console.log("success");
 	}
 
 	handleClick() {
@@ -99,8 +86,6 @@ class player extends Component {
 			})
 		} else if (this.state.player_name && pattern.test(this.state.player_name)) {
 			this.setState({ player_statistics: '' });
-			// console.log("state data",this.state.player_statistics);
-
 			/**
 			 * get player data by name
 			 */
@@ -108,17 +93,9 @@ class player extends Component {
 			matchService.getPlayerByName(this.state.player_name)
 				.then(json => {
 					if (!(json.data == '')) {
-						// this.setState({
-						// 	isLoaded: true,
-						// 	flag: true,
-						// 	player_info: json,
-						// 	pid: json.data[0].pid
-						// })
 						playerId = json.data[0].pid;
 						console.log("player Id:", playerId);
 						if (playerId) {
-							// console.log("player info",this.state.player_info.data);
-
 							/**
 							 * get player data by id
 							 */
@@ -137,39 +114,26 @@ class player extends Component {
 										T20_dataBow: [json.data.bowling.T20Is],
 										firstClass_dataBow: [json.data.bowling.firstClass],
 										listA_dataBow: [json.data.bowling.listA],
-										test_dataBow: [json.data.bowling.tests]
+										test_dataBow: [json.data.bowling.tests],
+										player_name: ''
 									})
-									// console.log("player_statistics",this.state.player_statistics);
-
-									// console.log("ODI_data",this.state.ODI_data);
-									// console.log("T20_data",this.state.T20_data);
-									// console.log("firstClass_data",this.state.firstClass_data);
-									// console.log("listA_data",this.state.listA_data);
-									// console.log("test_data",this.state.test_data);
-
-									// console.log("ODI_data",this.state.ODI_dataBow);
-									// console.log("T20_data",this.state.T20_dataBow);
-									// console.log("firstClass_data",this.state.firstClass_dataBow);
-									// console.log("listA_data",this.state.listA_dataBow);
-									// console.log("test_data",this.state.test_dataBow);
 								})
+								.catch(err => {
+									Swal.fire({
+										title: 'Internal server error',
+										type: 'warning',
+									})
+								})
+							}
 						}
-					} else {
-						Swal.fire({
-							title: 'Name is not valid',
-							type: 'warning',
+						console.log("data length:",json.data.length);
+						if(json.data.length == 0){
+							Swal.fire({
+								title: 'Name is not valid',
+								type: 'warning',
+							})
+						}
 						})
-					}
-					// console.log(this.state.player_name);
-					// console.log(this.state.player_info.data);
-					// console.log(this.state.player_info.data[0].pid);
-					// console.log(this.state.pid);
-					// this.setState({
-					// 	player_name: ''
-					// })
-					// this.state.player_name = '';
-					// console.log("player_name",this.state.player_name);
-				})
 		} else if (!(pattern.test(this.state.player_name))) {
 			Swal.fire({
 				title: 'Name is not valid',
@@ -180,8 +144,6 @@ class player extends Component {
 
 	render() {
 		const { isLoaded, player_info, player_statistics } = this.state;
-		// console.log("player_info",player_info);
-		// console.log("player_statistics",player_statistics);
 		AOS.init();
 
 		let displayODI;

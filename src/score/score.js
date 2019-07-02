@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import './score.css';
 import AOS from 'aos';
 import matchService from '../service/matchService';
+import Swal from 'sweetalert2';
 
 class score extends Component{
 	constructor(props){
@@ -20,27 +21,27 @@ class score extends Component{
 		}
 	}
 	componentDidMount(){
-		// console.log(this.props.location.pathname, typeof this.props.location.pathname);
 		const matchId = this.props.location.pathname.split('/')[2];
-		// console.log('matchId: ', matchId);
-		// console.log("==========>",this.props.location.pathname[0])
-
 		/**
 		 * get match score data
 		 */
 		matchService.getScore(matchId)
 		.then(matchData =>{
-			// console.log("match_data", matchData);
 			this.setState({
 				 score: {...this.state.score, matchData} ,
 				 isLoaded: true
 				})
 		})
+		.catch(err => {
+			Swal.fire({
+				title: 'Internal server error',
+				type: 'warning',
+			})
+		})
 	}
 
 	render() {
 		AOS.init();
-		// console.log("Match score",this.state.score);
 		if (this.state.score && this.state.score.matchData && this.state.score.matchData.data) {
 			const data = this.state.score.matchData.data;
 			this.state.stateBatting = data.batting;
@@ -49,11 +50,6 @@ class score extends Component{
 			this.state.stateTeam = data.team[0];
 			this.state.stateTeam2 = data.team[1];
 		}
-		// console.log("team-2",this.state.stateTeam2);
-		// console.log("team-2 length",Object.keys(this.state.stateTeam2).length);
-		// console.log("team",this.state.stateTeam);
-		// console.log("team length",Object.keys(this.state.stateTeam).length);
-		// console.log("scoreData",this.state.score);
 
 		let displayBatting;
 		if (this.state.stateBatting.length) {
@@ -207,8 +203,6 @@ class score extends Component{
 				)
 			})
 		}
-		// const match_start = this.state.score.data.matchStarted ? 'Yes' : 'No';
-		// console.log("match_start:",match_start);
 		if(!this.state.isLoaded){
 			return(
 				<div></div>
