@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import './player.css';
 import TextField from '@material-ui/core/TextField';
@@ -14,46 +14,46 @@ import AOS from 'aos';
 import unregister from '../intercept';
 import matchService from '../service/matchService';
 
-class player extends Component{
-	constructor(props){
+class player extends Component {
+	constructor(props) {
 		super(props);
 		this.state = {
-			player_info : [],
+			player_info: [],
 			player_name: '',
-			player_statistics:'',
-			pid:'',
+			player_statistics: '',
+			pid: '',
 			isLoaded: false,
 			flag: false,
-			ODI_data:[],
-			T20_data:[],
-			firstClass_data:[],
-			listA_data:[],
-			test_data:[],
-			ODI_dataBow:[],
-			T20_dataBow:[],
-			firstClass_dataBow:[],
-			listA_dataBow:[],
-			test_dataBow:[]
+			ODI_data: [],
+			T20_data: [],
+			firstClass_data: [],
+			listA_data: [],
+			test_data: [],
+			ODI_dataBow: [],
+			T20_dataBow: [],
+			firstClass_dataBow: [],
+			listA_dataBow: [],
+			test_dataBow: []
 		}
 		this.handleChangeEnd = this.handleChangeEnd.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
-	componentDidMount(){
+	componentDidMount() {
 		// console.log(this.props.location.pathname);
 		// const playerName = this.props.location.pathname.split('/')[2];
 		const playerId = this.props.location.pathname.split('/')[2];
 		// console.log("pname:",playerName);
 		// console.log("pid:",playerId);
 
-		if(playerId){
+		if (playerId) {
 			/**
 			 * get player by id
 			 */
 			matchService.getPlayerById(playerId)
-			.then(json =>{
+				.then(json => {
 					this.setState({
-						isLoaded:true,
-						player_statistics:json,
+						isLoaded: true,
+						player_statistics: json,
 						ODI_data: [json.data.batting.ODIs],
 						T20_data: [json.data.batting.T20Is],
 						firstClass_data: [json.data.batting.firstClass],
@@ -79,115 +79,115 @@ class player extends Component{
 					// console.log("listA_data",this.state.listA_dataBow);
 					// console.log("test_data",this.state.test_dataBow);
 				}
-			)
+				)
 		}
-	 }
-	 
-	handleChangeEnd(event){  
-      this.setState({
-      	player_name: event.target.value
-      });
-      // console.log("success");
-    }
+	}
 
-    handleClick(){
-    	const pattern =/^[a-z\sA-Z]+$/;
-    	if(!(this.state.player_name)){
-    		Swal.fire({
-    			title: 'Please Enter name',
-    			type: 'warning',
-    		})
-    	} else if (this.state.player_name && pattern.test(this.state.player_name)) {
-    		this.setState({player_statistics:''});
+	handleChangeEnd(event) {
+		this.setState({
+			player_name: event.target.value
+		});
+		// console.log("success");
+	}
+
+	handleClick() {
+		const pattern = /^[a-z\sA-Z]+$/;
+		if (!(this.state.player_name)) {
+			Swal.fire({
+				title: 'Please Enter name',
+				type: 'warning',
+			})
+		} else if (this.state.player_name && pattern.test(this.state.player_name)) {
+			this.setState({ player_statistics: '' });
 			// console.log("state data",this.state.player_statistics);
-			
+
 			/**
 			 * get player data by name
 			 */
+			let playerId = '';
 			matchService.getPlayerByName(this.state.player_name)
-			.then(json =>{
-				if(!(json.data == '')){
-					this.setState({
-						isLoaded:true,
-						flag:true,
-						player_info:json,
-						pid:json.data[0].pid
-					})
-				} else {
-					Swal.fire({
-						title: 'Name is not valid',
-						type: 'warning',
-					})
-				}
-				// console.log(this.state.player_name);
-				// console.log(this.state.player_info.data);
-				// console.log(this.state.player_info.data[0].pid);
-				// console.log(this.state.pid);
-				this.setState({
-					player_name: ''
+				.then(json => {
+					if (!(json.data == '')) {
+						// this.setState({
+						// 	isLoaded: true,
+						// 	flag: true,
+						// 	player_info: json,
+						// 	pid: json.data[0].pid
+						// })
+						playerId = json.data[0].pid;
+						console.log("player Id:", playerId);
+						if (playerId) {
+							// console.log("player info",this.state.player_info.data);
+
+							/**
+							 * get player data by id
+							 */
+							matchService.getPlayerById(playerId)
+								.then(json => {
+									console.log(json);
+									this.setState({
+										isLoaded: true,
+										player_statistics: json,
+										ODI_data: [json.data.batting.ODIs],
+										T20_data: [json.data.batting.T20Is],
+										firstClass_data: [json.data.batting.firstClass],
+										listA_data: [json.data.batting.listA],
+										test_data: [json.data.batting.tests],
+										ODI_dataBow: [json.data.bowling.ODIs],
+										T20_dataBow: [json.data.bowling.T20Is],
+										firstClass_dataBow: [json.data.bowling.firstClass],
+										listA_dataBow: [json.data.bowling.listA],
+										test_dataBow: [json.data.bowling.tests]
+									})
+									// console.log("player_statistics",this.state.player_statistics);
+
+									// console.log("ODI_data",this.state.ODI_data);
+									// console.log("T20_data",this.state.T20_data);
+									// console.log("firstClass_data",this.state.firstClass_data);
+									// console.log("listA_data",this.state.listA_data);
+									// console.log("test_data",this.state.test_data);
+
+									// console.log("ODI_data",this.state.ODI_dataBow);
+									// console.log("T20_data",this.state.T20_dataBow);
+									// console.log("firstClass_data",this.state.firstClass_dataBow);
+									// console.log("listA_data",this.state.listA_dataBow);
+									// console.log("test_data",this.state.test_dataBow);
+								})
+						}
+					} else {
+						Swal.fire({
+							title: 'Name is not valid',
+							type: 'warning',
+						})
+					}
+					// console.log(this.state.player_name);
+					// console.log(this.state.player_info.data);
+					// console.log(this.state.player_info.data[0].pid);
+					// console.log(this.state.pid);
+					// this.setState({
+					// 	player_name: ''
+					// })
+					// this.state.player_name = '';
+					// console.log("player_name",this.state.player_name);
 				})
-				// this.state.player_name = '';
-				// console.log("player_name",this.state.player_name);
-			})		
-		setTimeout(()=>{
-			if(this.state.pid){
-				// console.log("player info",this.state.player_info.data);
-
-				/**
-				 * get player data by id
-				 */
-				matchService.getPlayerById(this.state.pid)
-				// .then(res => res.json())
-				.then(json =>{
-					console.log(json);
-					this.setState({
-						isLoaded:true,
-						player_statistics:json,
-						ODI_data: [json.data.batting.ODIs],
-						T20_data: [json.data.batting.T20Is],
-						firstClass_data: [json.data.batting.firstClass],
-						listA_data: [json.data.batting.listA],
-						test_data: [json.data.batting.tests],
-						ODI_dataBow: [json.data.bowling.ODIs],
-						T20_dataBow: [json.data.bowling.T20Is],
-						firstClass_dataBow: [json.data.bowling.firstClass],
-						listA_dataBow: [json.data.bowling.listA],
-						test_dataBow: [json.data.bowling.tests]
-					})
-					// console.log("player_statistics",this.state.player_statistics);
-
-					// console.log("ODI_data",this.state.ODI_data);
-					// console.log("T20_data",this.state.T20_data);
-					// console.log("firstClass_data",this.state.firstClass_data);
-					// console.log("listA_data",this.state.listA_data);
-					// console.log("test_data",this.state.test_data);
-
-					// console.log("ODI_data",this.state.ODI_dataBow);
-					// console.log("T20_data",this.state.T20_dataBow);
-					// console.log("firstClass_data",this.state.firstClass_dataBow);
-					// console.log("listA_data",this.state.listA_dataBow);
-					// console.log("test_data",this.state.test_dataBow);
-				})
-			}
-		},3000)
 		} else if (!(pattern.test(this.state.player_name))) {
 			Swal.fire({
-			title: 'Name is not valid',
-			type: 'warning',
+				title: 'Name is not valid',
+				type: 'warning',
 			})
-		}	
+		}
 	}
-	
-		render(){
-		const { isLoaded,player_info,player_statistics } = this.state;
+
+	render() {
+		const { isLoaded, player_info, player_statistics } = this.state;
 		// console.log("player_info",player_info);
 		// console.log("player_statistics",player_statistics);
 		AOS.init();
 
 		let displayODI;
-		if(this.state.ODI_data[0] != undefined){
-			displayODI = this.state.ODI_data.map((ODI, ODIindex)=>{
-				return(
+		if (this.state.ODI_data[0] != undefined) {
+			displayODI = this.state.ODI_data.map((ODI, ODIindex) => {
+				return (
 					<tr key={ODIindex}>
 						<td><b>ODIs</b></td>
 						<td>{ODI["4s"] ? ODI["4s"] : "-"}</td>
@@ -204,14 +204,14 @@ class player extends Component{
 						<td>{ODI["Runs"] ? ODI["Runs"] : "-"}</td>
 						<td>{ODI["SR"] ? ODI["SR"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayT20;
-		if(this.state.T20_data[0] != undefined){
-			displayT20 = this.state.T20_data.map((T20I, T20Iindex)=>{
-				return(
+		if (this.state.T20_data[0] != undefined) {
+			displayT20 = this.state.T20_data.map((T20I, T20Iindex) => {
+				return (
 					<tr key={T20Iindex}>
 						<td><b>T20</b></td>
 						<td>{T20I["4s"] ? T20I["4s"] : "-"}</td>
@@ -228,14 +228,14 @@ class player extends Component{
 						<td>{T20I["Runs"] ? T20I["Runs"] : "-"}</td>
 						<td>{T20I["SR"] ? T20I["SR"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayfirstClass;
-		if(this.state.firstClass_data[0] != undefined){
-			displayfirstClass = this.state.firstClass_data.map((firstClass, firstClassindex)=>{
-				return(
+		if (this.state.firstClass_data[0] != undefined) {
+			displayfirstClass = this.state.firstClass_data.map((firstClass, firstClassindex) => {
+				return (
 					<tr key={firstClassindex}>
 						<td><b>FirstClass</b></td>
 						<td>{firstClass["4s"] ? firstClass["4s"] : "-"}</td>
@@ -252,14 +252,14 @@ class player extends Component{
 						<td>{firstClass["Runs"] ? firstClass["Runs"] : "-"}</td>
 						<td>{firstClass["SR"] ? firstClass["SR"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayListA;
-		if(this.state.listA_data[0] != undefined){
-			displayListA = this.state.listA_data.map((listA, listAindex)=>{
-				return(
+		if (this.state.listA_data[0] != undefined) {
+			displayListA = this.state.listA_data.map((listA, listAindex) => {
+				return (
 					<tr key={listAindex}>
 						<td><b>List-A</b></td>
 						<td>{listA["4s"] ? listA["4s"] : "-"}</td>
@@ -276,14 +276,14 @@ class player extends Component{
 						<td>{listA["Runs"] ? listA["Runs"] : "-"}</td>
 						<td>{listA["SR"] ? listA["SR"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayTests;
-		if(this.state.test_data[0] != undefined){
-			displayTests = this.state.test_data.map((test, testindex)=>{
-				return(
+		if (this.state.test_data[0] != undefined) {
+			displayTests = this.state.test_data.map((test, testindex) => {
+				return (
 					<tr key={testindex}>
 						<td><b>Tests</b></td>
 						<td>{test["4s"] ? test["4s"] : "-"}</td>
@@ -300,14 +300,14 @@ class player extends Component{
 						<td>{test["Runs"] ? test["Runs"] : "-"}</td>
 						<td>{test["SR"] ? test["SR"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayODIBow;
-		if(this.state.ODI_dataBow[0] != undefined){
-			displayODIBow = this.state.ODI_dataBow.map((ODIBow, ODIBowindex)=>{
-				return(
+		if (this.state.ODI_dataBow[0] != undefined) {
+			displayODIBow = this.state.ODI_dataBow.map((ODIBow, ODIBowindex) => {
+				return (
 					<tr key={ODIBowindex}>
 						<td><b>ODI</b></td>
 						<td>{ODIBow["4w"] ? ODIBow["4w"] : "-"}</td>
@@ -324,14 +324,14 @@ class player extends Component{
 						<td>{ODIBow["SR"] ? ODIBow["SR"] : "-"}</td>
 						<td>{ODIBow["Wkts"] ? ODIBow["Wkts"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayT20Bow;
-		if(this.state.T20_dataBow[0] != undefined){
-			displayT20Bow = this.state.T20_dataBow.map((T20Bow, T20Bowindex)=>{
-				return(
+		if (this.state.T20_dataBow[0] != undefined) {
+			displayT20Bow = this.state.T20_dataBow.map((T20Bow, T20Bowindex) => {
+				return (
 					<tr key={T20Bowindex}>
 						<td><b>T20</b></td>
 						<td>{T20Bow["4w"] ? T20Bow["4w"] : "-"}</td>
@@ -348,14 +348,14 @@ class player extends Component{
 						<td>{T20Bow["SR"] ? T20Bow["SR"] : "-"}</td>
 						<td>{T20Bow["Wkts"] ? T20Bow["Wkts"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayfirstClassBow;
-		if(this.state.firstClass_dataBow[0] != undefined){
-			displayfirstClassBow = this.state.firstClass_dataBow.map((firstClassBow, firstClassBowindex)=>{
-				return(
+		if (this.state.firstClass_dataBow[0] != undefined) {
+			displayfirstClassBow = this.state.firstClass_dataBow.map((firstClassBow, firstClassBowindex) => {
+				return (
 					<tr key={firstClassBowindex}>
 						<td><b>FirstClass</b></td>
 						<td>{firstClassBow["4w"] ? firstClassBow["4w"] : "-"}</td>
@@ -372,14 +372,14 @@ class player extends Component{
 						<td>{firstClassBow["SR"] ? firstClassBow["SR"] : "-"}</td>
 						<td>{firstClassBow["Wkts"] ? firstClassBow["Wkts"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayListABow;
-		if(this.state.listA_dataBow[0] != undefined){
-			displayListABow = this.state.listA_dataBow.map((listABow, listABowindex)=>{
-				return(
+		if (this.state.listA_dataBow[0] != undefined) {
+			displayListABow = this.state.listA_dataBow.map((listABow, listABowindex) => {
+				return (
 					<tr key={listABowindex}>
 						<td><b>List-A</b></td>
 						<td>{listABow["4w"] ? listABow["4w"] : "-"}</td>
@@ -396,14 +396,14 @@ class player extends Component{
 						<td>{listABow["SR"] ? listABow["SR"] : "-"}</td>
 						<td>{listABow["Wkts"] ? listABow["Wkts"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
 
 		let displayTestsBow;
-		if(this.state.test_dataBow[0] != undefined){
-			displayTestsBow = this.state.test_dataBow.map((testBow, testBowindex)=>{
-				return(
+		if (this.state.test_dataBow[0] != undefined) {
+			displayTestsBow = this.state.test_dataBow.map((testBow, testBowindex) => {
+				return (
 					<tr key={testBowindex}>
 						<td><b>Test</b></td>
 						<td>{testBow["4w"] ? testBow["4w"] : "-"}</td>
@@ -420,51 +420,48 @@ class player extends Component{
 						<td>{testBow["SR"] ? testBow["SR"] : "-"}</td>
 						<td>{testBow["Wkts"] ? testBow["Wkts"] : "-"}</td>
 					</tr>
-					)
+				)
 			})
 		}
-		if(!isLoaded && !player_statistics){	
+
+		if (!isLoaded && !player_statistics) {
 			return (
 				<Grid container spacing={12}>
 					<div data-aos="flip-left" className="player_search">
 						<Card className="card_search">
 							<CardContent className="cardText">
 								<TextField
-								className="standard-name"
-								variant="outlined"
-								label="Player Name"
-								onChange={this.handleChangeEnd}
-								margin="normal"
+									className="standard-name"
+									variant="outlined"
+									label="Player Name"
+									onChange={this.handleChangeEnd}
+									margin="normal"
 								/>
-								<Button style={{marginLeft:11,marginTop:9}} variant="contained" color="primary" onClick={this.handleClick}>
+								<Button style={{ marginLeft: 11, marginTop: 9 }} variant="contained" color="primary" onClick={this.handleClick}>
 									Search
 								</Button>
 							</CardContent>
 						</Card>
 						<div className="imageClass">
-							<img src={background} style={{height:300,width:280,marginTop:3}}></img>
+							<img src={background} style={{ height: 300, width: 280, marginTop: 3 }}></img>
 						</div>
 					</div>
 				</Grid>
-				)
-		} else if(!player_statistics) {
-			return(
-				<div></div>
 			)
-		} else if(isLoaded && player_statistics.fullName) {
-			return(
+		} else if (isLoaded && player_statistics.fullName) {
+			return (
 				<Grid container spacing={12}>
 					<div data-aos="flip-left" className="player_search">
 						<Card className="card_search">
 							<CardContent>
 								<TextField
-								className="standard-name"
-								variant="outlined"
-								label="Player Name"
-								onChange={this.handleChangeEnd}
-								margin="normal"
+									className="standard-name"
+									variant="outlined"
+									label="Player Name"
+									onChange={this.handleChangeEnd}
+									margin="normal"
 								/>
-								<Button style={{marginLeft:5,marginTop:7}} variant="contained" color="primary" onClick={this.handleClick}>
+								<Button style={{ marginLeft: 5, marginTop: 7 }} variant="contained" color="primary" onClick={this.handleClick}>
 									Search
 								</Button>
 							</CardContent>
@@ -476,165 +473,168 @@ class player extends Component{
 								<img src={player_statistics.imageURL} width="100%"></img>
 							</Grid>
 							<Grid data-aos="fade-up" item md={9} >
-							<CardContent>
-								<Typography gutterBottom variant="h5" component="h2">
-								<span className="font_name">{player_statistics.fullName}</span>
+								<CardContent>
+									<Typography gutterBottom variant="h5" component="h2">
+										<span className="font_name">{player_statistics.fullName}</span>
+									</Typography>
+									<Grid container spacing={12}>
+										<Grid item sm={3} xs={12}>
+											<span className="font_heading">Born</span>
+										</Grid>
+										<Grid item sm={9} xs={12} className="playerrow">
+											{player_statistics.born}
+										</Grid>
+										<Divider />
+										<Grid item sm={3} xs={12}>
+											<span className="font_heading">Country</span>
+										</Grid>
+										<Grid item sm={9} xs={12} className="playerrow">
+											{player_statistics.country}
+										</Grid>
+										<Divider />
+										<Grid item sm={3} xs={12}>
+											<span className="font_heading">Age</span>
+										</Grid>
+										<Grid item sm={9} xs={12} className="playerrow">
+											{player_statistics.currentAge}
+										</Grid>
+										<Divider />
+										<Grid item sm={3} xs={12}>
+											<span className="font_heading">Batting Style</span>
+										</Grid>
+										<Grid item sm={9} xs={12} className="playerrow">
+											{player_statistics.battingStyle}
+										</Grid>
+										<Divider />
+										<Grid item sm={3} xs={12}>
+											<span className="font_heading">Bowling Style</span>
+										</Grid>
+										<Grid item sm={9} xs={12} className="playerrow">
+											{player_statistics.bowlingStyle}
+										</Grid>
+										<Divider />
+										<Grid item sm={3} xs={12}>
+											<span className="font_heading">Player Role</span>
+										</Grid>
+										<Grid item sm={9} xs={12} className="playerrow">
+											{player_statistics.playingRole}
+										</Grid>
+										<Divider />
+										<Grid item sm={3} xs={12}>
+											<span className="font_heading">Teams</span>
+										</Grid>
+										<Grid item sm={9} xs={12} className="playerrow">
+											{player_statistics.majorTeams}
+										</Grid>
+										<Divider />
+									</Grid>
+								</CardContent>
+							</Grid>
+							<Grid data-aos="fade-up" item sm={12}>
+								<Typography variant="body2" style={{ textAlign: 'justify', color: '#000', marginTop: 10, marginBottom: 10, lineHeight: 2, fontSize: 16 }} color="textSecondary" component="p">
+									{player_statistics.profile}
 								</Typography>
-								<Grid container spacing={12}>
-									<Grid item sm={3} xs={12}>
-										<span className="font_heading">Born</span>
-									</Grid>
-									<Grid item sm={9} xs={12} className="playerrow">
-										{player_statistics.born}
-									</Grid>
-									<Divider/>
-									<Grid item sm={3} xs={12}>
-										<span className="font_heading">Country</span>
-									</Grid>
-									<Grid item sm={9} xs={12} className="playerrow">
-										{player_statistics.country}
-									</Grid>
-									<Divider />
-									<Grid item sm={3} xs={12}>
-										<span className="font_heading">Age</span>
-									</Grid>
-									<Grid item sm={9} xs={12} className="playerrow">
-										{player_statistics.currentAge}
-									</Grid>
-									<Divider />
-									<Grid item sm={3} xs={12}>
-										<span className="font_heading">Batting Style</span>
-									</Grid>
-									<Grid item sm={9} xs={12} className="playerrow">
-										{player_statistics.battingStyle}
-									</Grid>
-									<Divider />
-									<Grid item sm={3} xs={12}>
-										<span className="font_heading">Bowling Style</span>
-									</Grid>
-									<Grid item sm={9} xs={12} className="playerrow">
-										{player_statistics.bowlingStyle}
-									</Grid>
-									<Divider />
-									<Grid item sm={3} xs={12}>
-										<span className="font_heading">Player Role</span>
-									</Grid>
-									<Grid item sm={9} xs={12} className="playerrow">
-										{player_statistics.playingRole}
-									</Grid>
-									<Divider />
-									<Grid item sm={3} xs={12}>
-										<span className="font_heading">Teams</span>
-									</Grid>
-									<Grid item sm={9} xs={12} className="playerrow">
-										{player_statistics.majorTeams}
-									</Grid>
-									<Divider/>
-								</Grid>
-							</CardContent>
+							</Grid>
+							<Grid data-aos="fade-up" item sm={12} xs={12}>
+								<div><h2>Batting Career Summary</h2></div>
+								<div className="scoreTable">
+									<table>
+										<thead>
+											<tr>
+												<th></th>
+												<th>4s</th>
+												<th>6s</th>
+												<th>50</th>
+												<th>100</th>
+												<th title="Average">Ave</th>
+												<th title="Ball Faced">BF</th>
+												<th title="Catches">Ct</th>
+												<th title="High Score">Hs</th>
+												<th title="Innings">Inns</th>
+												<th>Mat</th>
+												<th title="No Balls">NO</th>
+												<th>Runs</th>
+												<th title="Strike Rate">SR</th>
+											</tr>
+										</thead>
+										<tbody>
+											{displayODI ? displayODI : <tr><td colSpan="14">Not Played any ODI Matches</td></tr>}
+											{displayT20 ? displayT20 : <tr><td colSpan="14">Not Played any T20 Matches</td></tr>}
+											{displayfirstClass ? displayfirstClass : <tr><td colSpan="14">Not Played any Firstclass Matches</td></tr>}
+											{displayListA ? displayListA : <tr><td colSpan="14">Not Played any List-A Matches</td></tr>}
+											{displayTests ? displayTests : <tr><td colSpan="14">Not Played any Test Matches</td></tr>}
+										</tbody>
+									</table>
+								</div>
+								<div><h2>Bowling Career Summary</h2></div>
+								<div className="scoreTable">
+									<table>
+										<thead>
+											<tr>
+												<th></th>
+												<th title="4 Wickets in an innings">4w</th>
+												<th title="5 Wickets in an innings">5w</th>
+												<th>10</th>
+												<th title="Average">Ave</th>
+												<th title="Best Bowling in Innings">BBI</th>
+												<th title="Best Bowling in Match">BBM</th>
+												<th>Balls</th>
+												<th title="Economy rate">Econ</th>
+												<th>Inns</th>
+												<th>Mat</th>
+												<th>Runs</th>
+												<th title="Strike Rate">SR</th>
+												<th title="Wickets">Wkts</th>
+											</tr>
+										</thead>
+										<tbody>
+											{displayODIBow ? displayODIBow : <tr><td colSpan="14">Not Played any ODI Matches</td></tr>}
+											{displayT20Bow ? displayT20Bow : <tr><td colSpan="14">Not Played any T20 Matches</td></tr>}
+											{displayfirstClassBow ? displayfirstClassBow : <tr><td colSpan="14">Not Played any Firstclass Matches</td></tr>}
+											{displayListABow ? displayListABow : <tr><td colSpan="14">Not Played any List-A Matches</td></tr>}
+											{displayTestsBow ? displayTestsBow : <tr><td colSpan="14">Not Played any Test Matches</td></tr>}
+										</tbody>
+									</table>
+								</div>
+							</Grid>
 						</Grid>
-						<Grid data-aos="fade-up" item sm={12}>
-							<Typography variant="body2" style={{textAlign:'justify',color: '#000',marginTop:10, marginBottom: 10, lineHeight:2, fontSize: 16}} color="textSecondary" component="p">
-								{player_statistics.profile}
-							</Typography>
-						</Grid>
-						<Grid data-aos="fade-up" item sm={12} xs={12}>
-						<div><h2>Batting Career Summary</h2></div>
-							<div className="scoreTable">
-								<table>
-									<thead>
-										<tr>
-											<th></th>
-											<th>4s</th>
-											<th>6s</th>
-											<th>50</th>
-											<th>100</th>
-											<th title="Average">Ave</th>
-											<th title="Ball Faced">BF</th>
-											<th title="Catches">Ct</th>
-											<th title="High Score">Hs</th>
-											<th title="Innings">Inns</th>
-											<th>Mat</th>
-											<th title="No Balls">NO</th>
-											<th>Runs</th>
-											<th title="Strike Rate">SR</th>
-										</tr>
-									</thead>
-									<tbody>
-									{displayODI ? displayODI : <tr><td colSpan="14">Not Played any ODI Matches</td></tr>}
-									{displayT20 ? displayT20 : <tr><td colSpan="14">Not Played any T20 Matches</td></tr>}
-									{displayfirstClass ? displayfirstClass : <tr><td colSpan="14">Not Played any Firstclass Matches</td></tr>}
-									{displayListA ? displayListA : <tr><td colSpan="14">Not Played any List-A Matches</td></tr>}
-									{displayTests ? displayTests : <tr><td colSpan="14">Not Played any Test Matches</td></tr>}
-									</tbody>
-								</table>
-							</div>
-						<div><h2>Bowling Career Summary</h2></div>
-							<div className="scoreTable">
-								<table>
-									<thead>
-										<tr>
-											<th></th>
-											<th title="4 Wickets in an innings">4w</th>
-											<th title="5 Wickets in an innings">5w</th>
-											<th>10</th>
-											<th title="Average">Ave</th>
-											<th title="Best Bowling in Innings">BBI</th>
-											<th title="Best Bowling in Match">BBM</th>
-											<th>Balls</th>
-											<th title="Economy rate">Econ</th>
-											<th>Inns</th>
-											<th>Mat</th>
-											<th>Runs</th>
-											<th title="Strike Rate">SR</th>
-											<th title="Wickets">Wkts</th>
-										</tr>
-									</thead>
-									<tbody>
-										{displayODIBow ? displayODIBow : <tr><td colSpan="14">Not Played any ODI Matches</td></tr>}
-										{displayT20Bow ? displayT20Bow : <tr><td colSpan="14">Not Played any T20 Matches</td></tr>}
-										{displayfirstClassBow ? displayfirstClassBow : <tr><td colSpan="14">Not Played any Firstclass Matches</td></tr>}
-										{displayListABow ? displayListABow : <tr><td colSpan="14">Not Played any List-A Matches</td></tr>}
-										{displayTestsBow ? displayTestsBow : <tr><td colSpan="14">Not Played any Test Matches</td></tr>}
-									</tbody>
-								</table>
-							</div>
-						</Grid>
-						</Grid>
-						<Button variant="contained" color="primary" style={{marginTop:10}}>
-						<Link to={"/home"}><span>Back</span></Link>
+						<Button variant="contained" color="primary" style={{ marginTop: 10 }}>
+							<Link to={"/home"}><span>Back</span></Link>
 						</Button>
 					</Card>
 				</Grid>
-				)
-		}
-		else if(player_statistics.error == "error"){
-			return(
+			)
+		} else if (player_statistics.error == "error") {
+			return (
 				<Grid container spacing={12}>
 					<div data-aos="flip-left" className="player_search">
 						<Card className="card_search">
 							<CardContent className="cardText">
 								<TextField
-								className="standard-name"
-								variant="outlined"
-								label="Player Name"
-								onChange={this.handleChangeEnd}
-								margin="normal"
-								style={{marginBottom:0}}
+									className="standard-name"
+									variant="outlined"
+									label="Player Name"
+									onChange={this.handleChangeEnd}
+									margin="normal"
+									style={{ marginBottom: 0 }}
 								/>
-								<Button style={{marginLeft:11,marginTop:9}} variant="contained" color="primary" onClick={this.handleClick}>
+								<Button style={{ marginLeft: 11, marginTop: 9 }} variant="contained" color="primary" onClick={this.handleClick}>
 									Search
 								</Button>
 							</CardContent>
 						</Card>
 						<center><p>Sorry No Such Player Exist</p></center>
 						<div className="imageClass">
-							<img src={background} style={{height:300,width:280,marginTop:3}}></img>
+							<img src={background} style={{ height: 300, width: 280, marginTop: 3 }}></img>
 						</div>
 					</div>
 				</Grid>
 			)
+		} else {
+			return (
+				<div></div>
+			)
 		}
-	}	
+	}
 }
 export default player;
