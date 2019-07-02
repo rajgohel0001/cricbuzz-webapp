@@ -1,6 +1,34 @@
+## Table Of Contents
+- [About-this-project](#About-this-project)
+    -[What is cricbuzz-web-app?](#What is cricbuzz-web-app?)
+- [Directory-Strucure](#Directory-Structure)
+- [Getting-Started](#Getting-Started)
+- [Dependancies](#Dependancies)
+
+## About this Project
+
+### What is cricbuzz-web-app and how to use?
+
+    * cricbuzz-web-app is sports website exclusively for Cricket
+
+    * In cricbuzz-web-app user can signin with facebook and user can see live matches score, future series match score and time table of matches user can also see details of player by searching name of player.
+
+## Directory Structure
+
+```
++-- /src [components]
+    +--/login [login component]
+    +--/home [home component]
+    +--/player [player component]
+    +--/score [score component]
+    +--/service [service file]
+    +--/index [routing purpose]
+    +--/intercept [middleware for request and response api]
+    +--/protected.route [for protected routing]
+```
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Getting started
 
 In the project directory, you can run:
 
@@ -66,3 +94,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+## Dependancies
+
+* Open package.json to see all development and production dependencies or run npm ls in the project root directory for all installed dependencies.
