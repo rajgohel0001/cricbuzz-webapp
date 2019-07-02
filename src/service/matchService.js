@@ -10,9 +10,9 @@ export default {
             .then((res) => {
                 return res.json();
             })
-            .then((data) => {
+            /*.then((data) => {
                 return data;
-            })
+            })*/
             .catch((err) => console.log(err));
     },
 
@@ -24,9 +24,9 @@ export default {
             .then((res) => {
                 return res.json();
             })
-            .then((data) => {
+            /*.then((data) => {
                 return data;
-            })
+            })*/
             .catch((err) => console.log(err));
     },
 
@@ -38,9 +38,9 @@ export default {
         .then((res) => {
             return res.json();
         })
-        .then((data) => {
+        /*.then((data) => {
             return data;
-        })
+        })*/
         .catch((err) => console.log(err));
     },
 
@@ -53,9 +53,9 @@ export default {
         .then((res) => {
             return res.json();
         })
-        .then((data) => {
+        /*.then((data) => {
             return data;
-        })
+        })*/
         .catch((err) => console.log(err));
     },
 
@@ -68,9 +68,9 @@ export default {
         .then((res) => {
             return res.json();
         })
-        .then((data) => {
+        /*.then((data) => {
             return data;
-        })
+        })*/
         .catch((err) => console.log(err));
     },
 
@@ -83,9 +83,9 @@ export default {
         .then((res) => {
             return res.json();
         })
-        .then((data) => {
+        /*.then((data) => {
             return data;
-        })
+        })*/
         .catch((err) => console.log(err));
     }
 }

@@ -1,12 +1,9 @@
 import React,{Component} from 'react';
-import * as mdc from 'material-components-web';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import home from '../home/home';
 import Button from '@material-ui/core/Button';
 import './score.css';
 import AOS from 'aos';
-import unregister from '../intercept';
 import matchService from '../service/matchService';
 
 class score extends Component{
@@ -26,20 +23,18 @@ class score extends Component{
 		// console.log(this.props.location.pathname, typeof this.props.location.pathname);
 		const matchId = this.props.location.pathname.split('/')[2];
 		// console.log('matchId: ', matchId);
-		// var uri = this.props.location.pathname;
-		// uri.split("/");
 		// console.log("==========>",this.props.location.pathname[0])
 
-		// fetch("https://cricapi.com/api/fantasySummary?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2&unique_id="+matchId)
+		/**
+		 * get match score data
+		 */
 		matchService.getScore(matchId)
-		// .then(res => res.json())
 		.then(matchData =>{
 			// console.log("match_data", matchData);
-			// this.setState({
-			//   isLoaded:true,
-			//   score:json.data,
-			// })
-			this.setState({ score: {...this.state.score, matchData} ,isLoaded: true})
+			this.setState({
+				 score: {...this.state.score, matchData} ,
+				 isLoaded: true
+				})
 		})
 	}
 

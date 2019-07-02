@@ -11,7 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import auth from "../auth";
 import AOS from 'aos';
-import unregister from '../intercept';
 import matchService from '../service/matchService';
 
 function TabContainer(props) {
@@ -45,8 +44,6 @@ class SimpleTabs extends React.Component {
   constructor(props){
       super(props);
       // console.log("props:",this.props);
-      // var today = new Date(),
-      // date = moment(today).format("YYYY/MM/DD");
       this.state = {
           match: [],
           future_series: [],
@@ -63,21 +60,23 @@ class SimpleTabs extends React.Component {
       });
   }
   componentDidMount(){
-      // console.log("data of live score");
-      // propservice.getprop(this.props);
-      // fetch("https://cricapi.com/api/cricket?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
+
+      /**
+       * get live match data
+       */
       matchService.liveScore()
-      // .then(res => res.json())
       .then(res =>{
-          console.log(res);
+          // console.log(res);
           this.setState({
               isLoaded: true,
               match: res.data,
           })
       })
-      // fetch("https://cricapi.com/api/matches?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
+
+      /**
+       * get future series matches
+       */
       matchService.futureSeries()
-        // .then(res => res.json())
         .then(json =>{
           // console.log(json);
           this.setState({
@@ -86,20 +85,21 @@ class SimpleTabs extends React.Component {
           })
           // console.log(this.state.future_series);
       })
-      // fetch("https://cricapi.com/api/matchCalendar?apikey=35xllyx5K7bMzc5qcuas7W6Uzml2")
+
+      /**
+       * get match data by day wise.
+       */
       matchService.matchByDay()  
-        // .then(res => res.json())
         .then(json =>{
             // console.log(json);
         this.setState({
             isLoaded: true,
             match_by_day: json.data,
         })
-        })
+      })
   }
 
   render() {
-    // let display_data;
     const { classes } = this.props;
     const { match,future_series,match_by_day,value,isLoaded,fireRedirect } = this.state;
     // console.log("privious locaion",window.location);
@@ -108,23 +108,11 @@ class SimpleTabs extends React.Component {
     // console.log("match_by_day",match_by_day);
     AOS.init();
 
-//  if(!isLoaded){
-//       return(
-//       <div><img alt="" className="load" src={loader}></img></div>
-//       )
-//     }
-    // if(!isLoaded){
-    // return(
-    //     <div>
-    //       <Loader />
-    //     </div>
-    //     )
-    // } 
     if(fireRedirect) {
       window.location.href = '/'
     } else if(isLoaded){
     return (
-      <Grid container spacing={12}>
+      <Grid container>
     	  <div className="main_container">
          <div className="main_heading">
             <Grid item xs={12} md={9} className="left_class">
@@ -205,11 +193,6 @@ class SimpleTabs extends React.Component {
                          </Grid>
                         </div>
                     {future_series.map(item =>{
-                      // console.log(item.dateTimeGMT, typeof item.dateTimeGMT);
-                      // const date = item.dateTimeGMT.split('T')[0];
-                      // const time = item.dateTimeGMT.split('T')[1];
-                      // const time1 = time.split('Z')[0];
-                      // const IST = time.split(':00.000')[0];
                       const GMT = new Date(item.dateTimeGMT);
                       const IST = GMT.toLocaleString();
                       // console.log("IST:",IST);
@@ -222,11 +205,6 @@ class SimpleTabs extends React.Component {
                         hour12: true
                       };
                       const timeString = dat.toLocaleString('en-US', options);
-                      // console.log("date:",date);
-                      // console.log("timeString",timeString);
-                      // console.log('date: ', date);
-                      // console.log('time: ', time);
-                      // console.log('time1: ', time1);
                       // console.log('IST: ', IST);
                       // console.log("formatDate:",this.formatDate(IST));
                         return(
