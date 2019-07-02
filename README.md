@@ -1,6 +1,5 @@
 ## Table Of Contents
 - [About-this-project](#About-this-project)
-    - [What-is-cricbuzz-web-app?](#What is cricbuzz-web-app?)
 - [Directory-Strucure](#Directory-Structure)
 - [Getting-Started](#Getting-Started)
 - [Dependancies](#Dependancies)
