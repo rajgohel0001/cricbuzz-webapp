@@ -16,11 +16,11 @@
 
 ```
 +-- /src [components]
-    +--/login [login component]
-    +--/home [home component]
-    +--/player [player component]
-    +--/score [score component]
-    +--/service [service file]
+    +--/login [login activity]
+    +--/home [display match tabs]
+    +--/player [player details]
+    +--/score [match score]
+    +--/service [for request and response of api call]
     +--/index [routing purpose]
     +--/intercept [middleware for request and response api]
     +--/protected.route [for protected routing]
@@ -97,3 +97,5 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ## Dependancies
 
 * Open package.json to see all development and production dependencies or run npm ls in the project root directory for all installed dependencies.
+
+* User cricapi for API call response. Ref:- https://www.cricapi.com
