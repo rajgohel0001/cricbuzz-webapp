@@ -6,17 +6,11 @@ export default {
      * get live matches
      */
     liveScore: () => {
-        return fetch(config.baseApiUrl+"cricke?apikey="+config.baseApiKey)
+        return fetch(config.baseApiUrl+"cricket?apikey="+config.baseApiKey)
             .then((res) => {
                 return res.json();
             })
-            /*.then((data) => {
-                return data;
-            })*/
-            .catch((err) => {
-                console.log(err);
-                return err;
-            });
+            .catch((err) => console.log(err));
     },
 
     /**
@@ -27,9 +21,6 @@ export default {
             .then((res) => {
                 return res.json();
             })
-            /*.then((data) => {
-                return data;
-            })*/
             .catch((err) => console.log(err));
     },
 
@@ -41,14 +32,11 @@ export default {
         .then((res) => {
             return res.json();
         })
-        /*.then((data) => {
-            return data;
-        })*/
         .catch((err) => console.log(err));
     },
 
     /**
-     * @params {req: player name}
+     * @params {json} playerName
      * get player details by name
      */
     getPlayerByName: (playerName) => {
@@ -56,14 +44,11 @@ export default {
         .then((res) => {
             return res.json();
         })
-        /*.then((data) => {
-            return data;
-        })*/
         .catch((err) => console.log(err));
     },
 
     /**
-     * @params {req: player id}
+     * @params {json} player id
      * get player details by id
      */
     getPlayerById: (playerId) => {
@@ -71,14 +56,11 @@ export default {
         .then((res) => {
             return res.json();
         })
-        /*.then((data) => {
-            return data;
-        })*/
         .catch((err) => console.log(err));
     },
 
     /**
-     * @params {req: match id}
+     * @params {json} match id
      * get match details
      */
     getScore: (matchId) => {
@@ -86,9 +68,6 @@ export default {
         .then((res) => {
             return res.json();
         })
-        /*.then((data) => {
-            return data;
-        })*/
         .catch((err) => console.log(err));
     }
 }

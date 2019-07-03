@@ -146,6 +146,7 @@ class player extends Component {
 		const { isLoaded, player_info, player_statistics } = this.state;
 		AOS.init();
 
+		// batting ODI
 		let displayODI;
 		if (this.state.ODI_data[0] != undefined) {
 			displayODI = this.state.ODI_data.map((ODI, ODIindex) => {
@@ -170,6 +171,7 @@ class player extends Component {
 			})
 		}
 
+		// batting T20
 		let displayT20;
 		if (this.state.T20_data[0] != undefined) {
 			displayT20 = this.state.T20_data.map((T20I, T20Iindex) => {
@@ -194,6 +196,7 @@ class player extends Component {
 			})
 		}
 
+		// batting Firstclass series
 		let displayfirstClass;
 		if (this.state.firstClass_data[0] != undefined) {
 			displayfirstClass = this.state.firstClass_data.map((firstClass, firstClassindex) => {
@@ -218,6 +221,7 @@ class player extends Component {
 			})
 		}
 
+		// batting ListA series
 		let displayListA;
 		if (this.state.listA_data[0] != undefined) {
 			displayListA = this.state.listA_data.map((listA, listAindex) => {
@@ -242,6 +246,7 @@ class player extends Component {
 			})
 		}
 
+		// batting test
 		let displayTests;
 		if (this.state.test_data[0] != undefined) {
 			displayTests = this.state.test_data.map((test, testindex) => {
@@ -266,6 +271,7 @@ class player extends Component {
 			})
 		}
 
+		// bowling ODI
 		let displayODIBow;
 		if (this.state.ODI_dataBow[0] != undefined) {
 			displayODIBow = this.state.ODI_dataBow.map((ODIBow, ODIBowindex) => {
@@ -290,6 +296,7 @@ class player extends Component {
 			})
 		}
 
+		// bowling T20
 		let displayT20Bow;
 		if (this.state.T20_dataBow[0] != undefined) {
 			displayT20Bow = this.state.T20_dataBow.map((T20Bow, T20Bowindex) => {
@@ -314,6 +321,7 @@ class player extends Component {
 			})
 		}
 
+		// bowling Firstclass series
 		let displayfirstClassBow;
 		if (this.state.firstClass_dataBow[0] != undefined) {
 			displayfirstClassBow = this.state.firstClass_dataBow.map((firstClassBow, firstClassBowindex) => {
@@ -338,6 +346,7 @@ class player extends Component {
 			})
 		}
 
+		// bowling ListA
 		let displayListABow;
 		if (this.state.listA_dataBow[0] != undefined) {
 			displayListABow = this.state.listA_dataBow.map((listABow, listABowindex) => {
@@ -362,6 +371,7 @@ class player extends Component {
 			})
 		}
 
+		// bowling Test
 		let displayTestsBow;
 		if (this.state.test_dataBow[0] != undefined) {
 			displayTestsBow = this.state.test_dataBow.map((testBow, testBowindex) => {
