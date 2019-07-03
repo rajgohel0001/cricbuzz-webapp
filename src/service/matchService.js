@@ -6,14 +6,17 @@ export default {
      * get live matches
      */
     liveScore: () => {
-        return fetch(config.baseApiUrl+"cricket?apikey="+config.baseApiKey)
+        return fetch(config.baseApiUrl+"cricke?apikey="+config.baseApiKey)
             .then((res) => {
                 return res.json();
             })
             /*.then((data) => {
                 return data;
             })*/
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                return err;
+            });
     },
 
     /**

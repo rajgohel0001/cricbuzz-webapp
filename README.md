@@ -98,4 +98,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 * Open package.json to see all development and production dependencies or run npm ls in the project root directory for all installed dependencies.
 
-* User cricapi for API call response. Ref:- https://www.cricapi.com
+* Used cricapi to get the live cricket score. Ref:- https://www.cricapi.com
