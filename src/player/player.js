@@ -23,7 +23,7 @@ class player extends Component {
 			player_statistics: '',
 			pid: '',
 			isLoaded: false,
-			flag: false,
+			isValid: false,
 			ODI_data: [],
 			T20_data: [],
 			firstClass_data: [],
@@ -94,14 +94,12 @@ class player extends Component {
 				.then(json => {
 					if (!(json.data == '')) {
 						playerId = json.data[0].pid;
-						console.log("player Id:", playerId);
 						if (playerId) {
 							/**
 							 * get player data by id
 							 */
 							matchService.getPlayerById(playerId)
 								.then(json => {
-									console.log(json);
 									this.setState({
 										isLoaded: true,
 										player_statistics: json,
@@ -126,8 +124,10 @@ class player extends Component {
 								})
 							}
 						}
-						console.log("data length:",json.data.length);
 						if(json.data.length == 0){
+							this.setState({
+								isValid: true
+							});
 							Swal.fire({
 								title: 'Name is not valid',
 								type: 'warning',
@@ -143,7 +143,7 @@ class player extends Component {
 	}
 
 	render() {
-		const { isLoaded, player_info, player_statistics } = this.state;
+		const { isLoaded, player_info, player_statistics, isValid } = this.state;
 		AOS.init();
 
 		// batting ODI
@@ -396,7 +396,7 @@ class player extends Component {
 			})
 		}
 
-		if (!isLoaded && !player_statistics) {
+		if (!isLoaded && !player_statistics || !isValid) {
 			return (
 				<Grid container spacing={12}>
 					<div data-aos="flip-left" className="player_search">

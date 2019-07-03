@@ -17,16 +17,13 @@ class Login extends Component {
 
     super(props);
     this.state = ({
-      email: '',
-      password: '',
-      error: null,
       emailLocal: localStorage.getItem('email')
     })
   }
 
   render() {
     // console.log("email local", this.state.emailLocal);
-    const { email, password, error, emailLocal } = this.state;
+    const { emailLocal } = this.state;
     const responseFacebook = (response) => {
       // console.log(response);
       // console.log("email:",response.email);

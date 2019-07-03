@@ -135,13 +135,8 @@ class SimpleTabs extends React.Component {
                   <Link to={"/player"}><span style={{ textDecoration: 'none' }}>Players</span></Link>
                 </Button>
                 <Button variant="contained" className="player_btn" onClick={() => {
-                  console.log("logout1");
                   localStorage.removeItem("email");
                   this.setState({ fireRedirect: true });
-                  // auth.logout(() => {
-                  //   this.props.history.push("/");
-                  // });
-                  console.log("logout2");
                 }}>
                   Logout
                 </Button>
