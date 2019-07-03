@@ -42,68 +42,69 @@ class SimpleTabs extends React.Component {
     this.setState({ value });
   };
 
-  constructor(props){
-      super(props);
-      this.state = {
-          match: [],
-          future_series: [],
-          match_by_day: [],
-          old_matches: [],
-          score:[],
-          match_id:[],
-          stateTitle:[],
-          value: 0,
-          isLoaded: false,
-          fireRedirect: false
-      }
-      auth.login(() => {
-      });
+  constructor(props) {
+    super(props);
+    this.state = {
+      match: [],
+      future_series: [],
+      match_by_day: [],
+      old_matches: [],
+      score: [],
+      match_id: [],
+      stateTitle: [],
+      value: 0,
+      isLoaded: false,
+      fireRedirect: false
+    }
+    auth.login(() => {
+    });
   }
-  componentDidMount(){
 
-      /**
-       * get live match data
-       */
-      matchService.liveScore()
-      .then(res =>{
-          this.setState({
-              isLoaded: true,
-              match: res.data,
-          })
-      })
-      .catch(err => {
-        Swal.fire({
-          title: 'Internal server error',
-          type: 'warning',
-        })
-      })
+  componentDidMount() {
 
-      /**
-       * get future series matches
-       */
-      matchService.futureSeries()
-        .then(json =>{
-          this.setState({
-              isLoaded: true,
-             future_series: json.matches,
-          })
-          // console.log(this.state.future_series);
-      })
-      .catch(err => {
-        Swal.fire({
-          title: 'Internal server error',
-          type: 'warning',
-        })
-      })
-
-      /**
-       * get match data by day wise.
-       */
-      matchService.matchByDay()  
-        .then(json =>{
+    /**
+     * get live match data
+     */
+    matchService.liveScore()
+      .then(res => {
         this.setState({
-            isLoaded: true,
-            match_by_day: json.data,
+          isLoaded: true,
+          match: res.data,
+        })
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Internal server error',
+          type: 'warning',
+        })
+      })
+
+    /**
+     * get future series matches
+     */
+    matchService.futureSeries()
+      .then(json => {
+        this.setState({
+          isLoaded: true,
+          future_series: json.matches,
+        })
+        // console.log(this.state.future_series);
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Internal server error',
+          type: 'warning',
+        })
+      })
+
+    /**
+     * get match data by day wise.
+     */
+    matchService.matchByDay()
+      .then(json => {
+        this.setState({
+          isLoaded: true,
+          match_by_day: json.data,
         })
       })
       .catch(err => {
@@ -116,155 +117,163 @@ class SimpleTabs extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { match,future_series,match_by_day,value,isLoaded,fireRedirect } = this.state;
+    const { match, future_series, match_by_day, value, isLoaded, fireRedirect } = this.state;
     AOS.init();
 
-    if(fireRedirect) {
+    if (fireRedirect) {
       window.location.href = '/'
-    } else if(isLoaded){
-    return (
-      <Grid container>
-    	  <div className="main_container">
-         <div className="main_heading">
-            <Grid item xs={12} md={9} className="left_class">
-    	        <p style={{color:"#3f50b5"}}>CricBuzz</p>
-            </Grid>
-            <Grid item xs={12} md={3} className="right_class">
-              <Button title="Find Player" variant="contained" color="primary" className="players_btn">
-                <Link to={"/player"}><span style={{textDecoration:'none'}}>Players</span></Link>
-              </Button>
-              <Button variant="contained" className="player_btn" onClick={() => {
-                console.log("logout1");
-                localStorage.removeItem("email");
-                this.setState({ fireRedirect: true });
-                // auth.logout(() => {
-                //   this.props.history.push("/");
-                // });
-                console.log("logout2");
+    } else if (isLoaded) {
+      return (
+        <Grid container>
+          <div className="main_container">
+            <div className="main_heading">
+              <Grid item xs={12} md={9} className="left_class">
+                <p style={{ color: "#3f50b5" }}>CricBuzz</p>
+              </Grid>
+              <Grid item xs={12} md={3} className="right_class">
+                <Button title="Find Player" variant="contained" color="primary" className="players_btn">
+                  <Link to={"/player"}><span style={{ textDecoration: 'none' }}>Players</span></Link>
+                </Button>
+                <Button variant="contained" className="player_btn" onClick={() => {
+                  console.log("logout1");
+                  localStorage.removeItem("email");
+                  this.setState({ fireRedirect: true });
+                  // auth.logout(() => {
+                  //   this.props.history.push("/");
+                  // });
+                  console.log("logout2");
                 }}>
                   Logout
                 </Button>
               </Grid>
             </div>
-    	    <div className="border_class">
-            <div className={classes.root}>
-              <AppBar position="static">
-                <Tabs value={value} onChange={this.handleChange} variant="scrollable" scrollButtons="auto" indicatorColor="primary">
-                  <Tab label="Live Matches" />
-                  <Tab label="Score Board" />
-                  <Tab label="Current & Future series" />
-                  <Tab label="Match by Day" />
-                </Tabs>
-              </AppBar>
-              {value === 0 && <TabContainer>
-                  {match.map(item=>{
-                      return (
+            <div className="border_class">
+              <div className={classes.root}>
+                <AppBar position="static">
+                  <Tabs value={value} onChange={this.handleChange} variant="scrollable" scrollButtons="auto" indicatorColor="primary">
+                    <Tab label="Live Matches" />
+                    <Tab label="Score Board" />
+                    <Tab label="Current & Future series" />
+                    <Tab label="Match by Day" />
+                  </Tabs>
+                </AppBar>
+
+                {/* live matches */}
+                {value === 0 && <TabContainer>
+                  {match.map(item => {
+                    return (
                       <div data-aos="fade-up" className="live_score_box">
                         <div className="match1">
-                          <span dangerouslySetInnerHTML={{__html: item.title.split(" v ")[0]}}></span>
-                          <b> Vs </b><span dangerouslySetInnerHTML={{__html: item.title.split(" v ")[1]}}></span>
+                          <span dangerouslySetInnerHTML={{ __html: item.title.split(" v ")[0] }}></span>
+                          <b> Vs </b><span dangerouslySetInnerHTML={{ __html: item.title.split(" v ")[1] }}></span>
                         </div>
                       </div>
-                      )
+                    )
                   })}
-        	      </TabContainer>}
-              {value === 1 &&<TabContainer>
-                {match.map(item=>{
-                  // const matchTeam = item.title.split(" v ")[0];
-                  // console.log("team",matchTeam);
+                </TabContainer>}
+
+                {/* live match score */}
+                {value === 1 && <TabContainer>
+                  {match.map(item => {
+                    // const matchTeam = item.title.split(" v ")[0];
+                    // console.log("team",matchTeam);
                     return (
                       <div data-aos="fade-up" className="live_score_box">
                         <div className="match1">
                           <Grid container spacing={12}>
                             <Grid sm={9} md={9}>
-                              <span dangerouslySetInnerHTML={{__html: item.title.split(" v ")[0]}}></span>
-                              <b> Vs </b><span dangerouslySetInnerHTML={{__html: item.title.split(" v ")[1]}}></span>
+                              <span dangerouslySetInnerHTML={{ __html: item.title.split(" v ")[0] }}></span>
+                              <b> Vs </b><span dangerouslySetInnerHTML={{ __html: item.title.split(" v ")[1] }}></span>
                             </Grid>
                             <Grid sm={3} md={3}>
                               <Button title="Match Score" className="link_btn" variant="contained">
-                                <Link to={"/score/"+item.unique_id}><span style={{textDecoration:'none',color:"black"}}>Score</span></Link>
+                                <Link to={"/score/" + item.unique_id}><span style={{ textDecoration: 'none', color: "black" }}>Score</span></Link>
                               </Button>
                             </Grid>
                           </Grid>
                         </div>
                       </div>
                     )
-                })}
-              </TabContainer>}
-              {value === 2 && <TabContainer>
-                        <div className="match1">
-                          <Grid container spacing={12}>
-                            <Grid item sm={2} md={2}>
-                              <h4 style={{margin:0}}>Date &amp; Time</h4>
-                            </Grid>
-                            <Grid item sm={10} md={10}>
-                              <h4 style={{margin:0}}>Match</h4>
-                            </Grid>
-                         </Grid>
-                        </div>
-                    {future_series.map(item =>{
-                      const GMT = new Date(item.dateTimeGMT);
-                      const IST = GMT.toLocaleString();
-                      const date = IST.split(',')[0];
+                  })}
+                </TabContainer>}
 
-                      const dat = new Date(item.dateTimeGMT);
-                      const options = {
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        hour12: true
-                      };
-                      const timeString = dat.toLocaleString('en-US', options);
-                        return(
-                        <div data-aos="fade-up">
-                          <Grid container spacing={12}>
-                            <Grid item sm={2} md={2}>
-                              <div className="match1">{date}, {timeString}</div>
-                            </Grid>
-                            <Grid item sm={10} md={10}>
-                              <Grid container spacing={12}>
-                                <Grid item sm={9}>
-                                  <div className="match1">{item["team-1"]} <b>Vs</b> {item["team-2"]} {item.type}
-                                  </div>
-                                </Grid>
-                                <Grid item sm={3} md={3}>
-                                  <Button title="Match Score" className="link_btn" variant="contained">
-                                    <Link to={"/score/"+item.unique_id}><span style={{textDecoration:'none',color:"black"}}>Score</span></Link>
-                                  </Button>
-                                </Grid>
+                {/* current and future series matchs */}
+                {value === 2 && <TabContainer>
+                  <div className="match1">
+                    <Grid container spacing={12}>
+                      <Grid item sm={2} md={2}>
+                        <h4 style={{ margin: 0 }}>Date &amp; Time</h4>
+                      </Grid>
+                      <Grid item sm={10} md={10}>
+                        <h4 style={{ margin: 0 }}>Match</h4>
+                      </Grid>
+                    </Grid>
+                  </div>
+                  {future_series.map(item => {
+                    const GMT = new Date(item.dateTimeGMT);
+                    const IST = GMT.toLocaleString();
+                    const date = IST.split(',')[0];
+
+                    const dat = new Date(item.dateTimeGMT);
+                    const options = {
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      hour12: true
+                    };
+                    const timeString = dat.toLocaleString('en-US', options);
+                    return (
+                      <div data-aos="fade-up">
+                        <Grid container spacing={12}>
+                          <Grid item sm={2} md={2}>
+                            <div className="match1">{date}, {timeString}</div>
+                          </Grid>
+                          <Grid item sm={10} md={10}>
+                            <Grid container spacing={12}>
+                              <Grid item sm={9}>
+                                <div className="match1">{item["team-1"]} <b>Vs</b> {item["team-2"]} {item.type}
+                                </div>
+                              </Grid>
+                              <Grid item sm={3} md={3}>
+                                <Button title="Match Score" className="link_btn" variant="contained">
+                                  <Link to={"/score/" + item.unique_id}><span style={{ textDecoration: 'none', color: "black" }}>Score</span></Link>
+                                </Button>
                               </Grid>
                             </Grid>
                           </Grid>
+                        </Grid>
                         <hr />
-                        </div>
-                        )
-                    })}
-                </TabContainer>}
-        	{value === 3 && <TabContainer>
-                {match_by_day.map(item=>{
-                    return(
-                    <div data-aos="fade-up">
-                      <Grid container spacing={12}>
-                        <Grid item sm={2}>
-                          <div className="match1">{item.date}</div>
-                        </Grid>
-                        <Grid item sm={10}>
-                          <div className="match1">{item.name.split(" v ")[0]} <b>Vs</b> {item.name.split(" v ")[1]}</div>
-                          <hr />
-                        </Grid>
-                      </Grid>
-                    </div>
+                      </div>
                     )
-                })}
-            </TabContainer>}
+                  })}
+                </TabContainer>}
+
+                {/* match time table day wise */}
+                {value === 3 && <TabContainer>
+                  {match_by_day.map(item => {
+                    return (
+                      <div data-aos="fade-up">
+                        <Grid container spacing={12}>
+                          <Grid item sm={2}>
+                            <div className="match1">{item.date}</div>
+                          </Grid>
+                          <Grid item sm={10}>
+                            <div className="match1">{item.name.split(" v ")[0]} <b>Vs</b> {item.name.split(" v ")[1]}</div>
+                            <hr />
+                          </Grid>
+                        </Grid>
+                      </div>
+                    )
+                  })}
+                </TabContainer>}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </Grid>
-    );
-    }else{
-      return(
+        </Grid>
+      );
+    } else {
+      return (
         <div></div>
-        )
+      )
     }
   }
 }
