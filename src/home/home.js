@@ -54,7 +54,8 @@ class SimpleTabs extends React.Component {
       stateTitle: [],
       value: 0,
       isLoaded: false,
-      fireRedirect: false
+      fireRedirect: false,
+      isError: false
     }
     auth.login(() => {
     });
@@ -67,10 +68,16 @@ class SimpleTabs extends React.Component {
      */
     matchService.liveScore()
       .then(res => {
-        this.setState({
-          isLoaded: true,
-          match: res.data,
-        })
+        if(res.error){
+          this.setState({
+            isError: true,
+          })
+        } else {
+          this.setState({
+            isLoaded: true,
+            match: res.data
+          })
+        }
       })
       .catch(err => {
         Swal.fire({
@@ -83,10 +90,10 @@ class SimpleTabs extends React.Component {
      * get future series matches
      */
     matchService.futureSeries()
-      .then(json => {
+      .then(res => {
+
         this.setState({
-          isLoaded: true,
-          future_series: json.matches,
+          future_series: res.matches,
         })
         // console.log(this.state.future_series);
       })
@@ -101,10 +108,9 @@ class SimpleTabs extends React.Component {
      * get match data by day wise.
      */
     matchService.matchByDay()
-      .then(json => {
+      .then(res => {
         this.setState({
-          isLoaded: true,
-          match_by_day: json.data,
+          match_by_day: res.data,
         })
       })
       .catch(err => {
@@ -117,7 +123,7 @@ class SimpleTabs extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { match, future_series, match_by_day, value, isLoaded, fireRedirect } = this.state;
+    const { match, future_series, match_by_day, value, isLoaded, fireRedirect, isError } = this.state;
     AOS.init();
 
     if (fireRedirect) {
@@ -265,6 +271,10 @@ class SimpleTabs extends React.Component {
           </div>
         </Grid>
       );
+    } else if(isError){
+      return (
+        <div><h2><center>Internal Server Error</center></h2></div>
+      )
     } else {
       return (
         <div></div>
