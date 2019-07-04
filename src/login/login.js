@@ -22,14 +22,11 @@ class Login extends Component {
   }
 
   render() {
-    // console.log("email local", this.state.emailLocal);
     const { emailLocal } = this.state;
     const responseFacebook = (response) => {
       // console.log(response);
-      // console.log("email:",response.email);
       localStorage.setItem("email", "rajgohel0007@gmail.com");
       // localStorage.setItem("email",response.email);
-      // this.props.history.push("/home");
       auth.login(() => {
         this.props.history.push("/home");
       });

@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import background from '../player_bg1.jpg';
+import background from '../public/player_bg1.jpg';
 import Swal from 'sweetalert2';
 import AOS from 'aos';
 import unregister from '../intercept';
