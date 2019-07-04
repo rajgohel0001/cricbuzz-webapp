@@ -91,7 +91,6 @@ class SimpleTabs extends React.Component {
      */
     matchService.futureSeries()
       .then(res => {
-
         this.setState({
           future_series: res.matches,
         })

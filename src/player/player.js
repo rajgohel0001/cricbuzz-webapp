@@ -23,7 +23,7 @@ class player extends Component {
 			player_statistics: '',
 			pid: '',
 			isLoaded: false,
-			isValid: false,
+			flag: false,
 			ODI_data: [],
 			T20_data: [],
 			firstClass_data: [],
@@ -33,14 +33,15 @@ class player extends Component {
 			T20_dataBow: [],
 			firstClass_dataBow: [],
 			listA_dataBow: [],
-			test_dataBow: []
+			test_dataBow: [],
+			isClicked: false,
+			nameError: false
 		}
 		this.handleChangeEnd = this.handleChangeEnd.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
 	componentDidMount() {
 		const playerId = this.props.location.pathname.split('/')[2];
-
 		if (playerId) {
 			/**
 			 * get player by id
@@ -77,13 +78,23 @@ class player extends Component {
 		});
 	}
 
+	falseClick(){
+		this.setState({
+			isClicked: false
+		})
+	}
+
 	handleClick() {
+		this.setState({
+			isClicked: true
+		})
 		const pattern = /^[a-z\sA-Z]+$/;
 		if (!(this.state.player_name)) {
 			Swal.fire({
 				title: 'Please Enter name',
 				type: 'warning',
 			})
+			this.falseClick();
 		} else if (this.state.player_name && pattern.test(this.state.player_name)) {
 			this.setState({ player_statistics: '' });
 			/**
@@ -113,7 +124,8 @@ class player extends Component {
 										firstClass_dataBow: [json.data.bowling.firstClass],
 										listA_dataBow: [json.data.bowling.listA],
 										test_dataBow: [json.data.bowling.tests],
-										player_name: ''
+										player_name: '',
+										isClicked: false
 									})
 								})
 								.catch(err => {
@@ -125,15 +137,16 @@ class player extends Component {
 							}
 						}
 						if(json.data.length == 0){
-							this.setState({
-								isValid: true
-							});
 							Swal.fire({
 								title: 'Name is not valid',
 								type: 'warning',
+							});
+							this.setState({
+								nameError: true
 							})
+							this.falseClick();
 						}
-						})
+					})
 		} else if (!(pattern.test(this.state.player_name))) {
 			Swal.fire({
 				title: 'Name is not valid',
@@ -143,10 +156,9 @@ class player extends Component {
 	}
 
 	render() {
-		const { isLoaded, player_info, player_statistics, isValid } = this.state;
+		const { isLoaded, player_info, player_statistics, isClicked, nameError } = this.state;
 		AOS.init();
 
-		// batting ODI
 		let displayODI;
 		if (this.state.ODI_data[0] != undefined) {
 			displayODI = this.state.ODI_data.map((ODI, ODIindex) => {
@@ -171,7 +183,6 @@ class player extends Component {
 			})
 		}
 
-		// batting T20
 		let displayT20;
 		if (this.state.T20_data[0] != undefined) {
 			displayT20 = this.state.T20_data.map((T20I, T20Iindex) => {
@@ -196,7 +207,6 @@ class player extends Component {
 			})
 		}
 
-		// batting Firstclass series
 		let displayfirstClass;
 		if (this.state.firstClass_data[0] != undefined) {
 			displayfirstClass = this.state.firstClass_data.map((firstClass, firstClassindex) => {
@@ -221,7 +231,6 @@ class player extends Component {
 			})
 		}
 
-		// batting ListA series
 		let displayListA;
 		if (this.state.listA_data[0] != undefined) {
 			displayListA = this.state.listA_data.map((listA, listAindex) => {
@@ -246,7 +255,6 @@ class player extends Component {
 			})
 		}
 
-		// batting test
 		let displayTests;
 		if (this.state.test_data[0] != undefined) {
 			displayTests = this.state.test_data.map((test, testindex) => {
@@ -271,7 +279,6 @@ class player extends Component {
 			})
 		}
 
-		// bowling ODI
 		let displayODIBow;
 		if (this.state.ODI_dataBow[0] != undefined) {
 			displayODIBow = this.state.ODI_dataBow.map((ODIBow, ODIBowindex) => {
@@ -296,7 +303,6 @@ class player extends Component {
 			})
 		}
 
-		// bowling T20
 		let displayT20Bow;
 		if (this.state.T20_dataBow[0] != undefined) {
 			displayT20Bow = this.state.T20_dataBow.map((T20Bow, T20Bowindex) => {
@@ -321,7 +327,6 @@ class player extends Component {
 			})
 		}
 
-		// bowling Firstclass series
 		let displayfirstClassBow;
 		if (this.state.firstClass_dataBow[0] != undefined) {
 			displayfirstClassBow = this.state.firstClass_dataBow.map((firstClassBow, firstClassBowindex) => {
@@ -346,7 +351,6 @@ class player extends Component {
 			})
 		}
 
-		// bowling ListA
 		let displayListABow;
 		if (this.state.listA_dataBow[0] != undefined) {
 			displayListABow = this.state.listA_dataBow.map((listABow, listABowindex) => {
@@ -371,7 +375,6 @@ class player extends Component {
 			})
 		}
 
-		// bowling Test
 		let displayTestsBow;
 		if (this.state.test_dataBow[0] != undefined) {
 			displayTestsBow = this.state.test_dataBow.map((testBow, testBowindex) => {
@@ -396,7 +399,7 @@ class player extends Component {
 			})
 		}
 
-		if (!isLoaded && !player_statistics || !isValid) {
+		if (!isLoaded && !player_statistics) {
 			return (
 				<Grid container spacing={12}>
 					<div data-aos="flip-left" className="player_search">
@@ -409,7 +412,7 @@ class player extends Component {
 									onChange={this.handleChangeEnd}
 									margin="normal"
 								/>
-								<Button style={{ marginLeft: 11, marginTop: 9 }} variant="contained" color="primary" onClick={this.handleClick}>
+								<Button style={{ marginLeft: 11, marginTop: 9 }} variant="contained" color="primary" onClick={this.handleClick} disabled={isClicked}>
 									Search
 								</Button>
 							</CardContent>
@@ -433,7 +436,7 @@ class player extends Component {
 									onChange={this.handleChangeEnd}
 									margin="normal"
 								/>
-								<Button style={{ marginLeft: 5, marginTop: 7 }} variant="contained" color="primary" onClick={this.handleClick}>
+								<Button style={{ marginLeft: 5, marginTop: 7 }} variant="contained" color="primary" onClick={this.handleClick} disabled={isClicked}>
 									Search
 								</Button>
 							</CardContent>
@@ -576,7 +579,7 @@ class player extends Component {
 					</Card>
 				</Grid>
 			)
-		} else if (player_statistics.error == "error") {
+		} else if (nameError) {
 			return (
 				<Grid container spacing={12}>
 					<div data-aos="flip-left" className="player_search">
@@ -590,12 +593,11 @@ class player extends Component {
 									margin="normal"
 									style={{ marginBottom: 0 }}
 								/>
-								<Button style={{ marginLeft: 11, marginTop: 9 }} variant="contained" color="primary" onClick={this.handleClick}>
+								<Button style={{ marginLeft: 11, marginTop: 9 }} variant="contained" color="primary" onClick={this.handleClick} disabled={isClicked}>
 									Search
 								</Button>
 							</CardContent>
 						</Card>
-						<center><p>Sorry No Such Player Exist</p></center>
 						<div className="imageClass">
 							<img src={background} style={{ height: 300, width: 280, marginTop: 3 }}></img>
 						</div>
